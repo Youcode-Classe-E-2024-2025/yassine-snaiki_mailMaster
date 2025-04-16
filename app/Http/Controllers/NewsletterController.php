@@ -6,11 +6,8 @@ use Illuminate\Http\Request;
 
 class NewsletterController extends Controller
 {
-    public function create(Request $request)
+    public function store(Request $request)
     {
-
-        // return $request;
-
         $request->validate([
             'title' => 'required|string|unique:newsletters,title',
             'content' => 'required|string',
@@ -28,7 +25,7 @@ class NewsletterController extends Controller
         return response()->json($newsletter, 201);
     }
 
-    public function getAll()
+    public function index()
     {
         return response()->json(Newsletter::all());
     }

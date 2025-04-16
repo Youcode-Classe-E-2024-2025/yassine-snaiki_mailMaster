@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class SubscriptionController extends Controller
 {
-    public function addSub(Request $request)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|unique:subscribers,email',
@@ -29,7 +29,7 @@ class SubscriptionController extends Controller
         return response()->json(['message' => 'Subscribed successfully', 'data' => $subscriber], 201);
     }
 
-    public function cancelSub(Request $request)
+    public function destroy(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:subscribers,email',
@@ -46,7 +46,7 @@ class SubscriptionController extends Controller
         return response()->json(['message' => 'Unsubscribed successfully']);
     }
 
-    public function getAllSub()
+    public function index()
     {
         $subscribers = Subscriber::all();
         return response()->json($subscribers);
