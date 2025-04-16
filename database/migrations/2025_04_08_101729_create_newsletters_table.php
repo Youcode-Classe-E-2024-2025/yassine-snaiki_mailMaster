@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->longText('content');
-            $table->string('template')->nullable();
+            $table->string('template')->default('default')->after('content');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
-        
+
     }
 
     /**

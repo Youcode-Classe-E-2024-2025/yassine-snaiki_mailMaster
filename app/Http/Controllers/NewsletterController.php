@@ -3,17 +3,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Newsletter;
 use Illuminate\Http\Request;
-
+use Log;
 class NewsletterController extends Controller
 {
-    public function store(Request $request)
+
+
+    public function destroy(Newsletter $newsletter){
+        $newsletter->delete();
+        return response()->json(null, 204);
+    }
+    public function create(Request $request)
     {
+
+        Log::info("input" , $request->all());
+
         $request->validate([
             'title' => 'required|string|unique:newsletters,title',
             'content' => 'required|string',
             'user_id' => 'required|exists:users,id',
             'template' => 'required|in:new_product,discount',
         ]);
+
+
+
 
         $newsletter = Newsletter::create([
             'title' => $request->title,
@@ -25,7 +37,7 @@ class NewsletterController extends Controller
         return response()->json($newsletter, 201);
     }
 
-    public function index()
+    public function getAll()
     {
         return response()->json(Newsletter::all());
     }

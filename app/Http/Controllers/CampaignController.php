@@ -1,4 +1,4 @@
-<?php
+<?php 
 namespace App\Http\Controllers;
 
 use App\Models\Campaign;
@@ -8,12 +8,8 @@ use Illuminate\Support\Facades\Validator;
 
 class CampaignController extends Controller
 {
-    public function index()
-    {
-        return response()->json(Campaign::with('user', 'newsletter')->get());
-    }
     // Create a new campaign
-    public function store(Request $request)
+    public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'subject' => 'required|string|max:255',
@@ -36,8 +32,14 @@ class CampaignController extends Controller
         return response()->json($campaign, 201);
     }
 
+    // Get all campaigns
+    public function getAll()
+    {
+        return response()->json(Campaign::with('user', 'newsletter')->get());
+    }
 
-    public function update($id, Request $request)
+    // Update campaign status
+    public function updateStatus($id, Request $request)
     {
         $request->validate([
             'status' => 'required|in:ongoing,end'
@@ -50,7 +52,7 @@ class CampaignController extends Controller
         return response()->json(['message' => 'Status updated.', 'campaign' => $campaign]);
     }
 
-
+    // Check if a subscriber opened the email
     public function getCampaignSubscriber($campaignId, $subscriberId)
     {
         $cs = CampaignSubscriber::where('campaign_id', $campaignId)
